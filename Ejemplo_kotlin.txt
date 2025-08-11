@@ -1,0 +1,53 @@
+
+
+fun main() {
+    //Estas variables estan orientadas a objetos
+    var nombre: Int = 10; //una variable, el nombre, el tipo de dato y el valor
+    
+    val impuesto_IVA: Int = 16;//value, manera de decalarar una constante, siempre estático
+	
+    //Encerramos la variable, tenemos un espacio asignado para saber si lo tenemos o no
+    var esta_vivo_el_gato_de_schrodinger: Boolean? = true;//el ? promete que en el futuro habra algo ya sea un valor o un nulo
+    
+    //Kotlin puede interpretar el tipo de dato despues del =, interna interpreta como var hora: double = 16.6
+    var hora = 16.6;
+    //hora = "las tres en punto";
+    //Unica manera que funcione es var hora: String = "";, si no, no puedes meter un string en un double
+    
+    //ejemplo 1
+    var edad: Int = 23;
+    val mayoria_de_edad = 18;
+    val nombre2: String = "Petra ";
+    
+    if(edad > mayoria_de_edad){
+        println("Es mayor de edad");
+    }
+    else{
+        println("No es mayor de edad");
+    }
+	
+    println("${nombre2}: ${if(!(edad > mayoria_de_edad)){"No"} else {} } es mayor de edad")//las llaves incluso pueden usarse para escribir código 
+    
+    //ejemplo2
+    
+    if(edad > mayoria_de_edad){
+        println("${nombre2}Es mayor de edad");
+    }
+    else{
+        println("No es mayor de edad");
+    }
+    
+    //ejemplo 3
+    var edad2: Int? = null;
+    val nombre3: String?;
+    
+    if(edad2 ?: 0 > mayoria_de_edad){ //en caso de no cumplir la promesa tome el "0" como valor
+        println("${nombre2}Es mayor de edad");
+    }
+    else{
+        println("No es mayor de edad");
+    }
+    
+    println("${edad2 ?: 0} es el valor actual de la edad")
+    
+}
