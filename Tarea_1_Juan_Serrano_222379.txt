@@ -1,0 +1,32 @@
+
+
+fun main() {
+    //Variables explicitas
+    var nombre: String = "Juan";
+    var edad: Int = 3;
+    var vivo: Boolean = true;
+    var precio: Double = 16.6;
+    var valor_de_juego: Float = 100.567f;
+    
+    //Variables implicitas
+    var nombre2 = "Pancho";
+    var edad2 = 30;
+    var vivo2 = false;
+    var precio2 = 32.2;
+    var valor_de_juego2 = 5000.2123f;
+    
+    //Contantes explicitas
+    val apellido: String = "Serrano";
+    val tiempo: Int = 23;
+    val vida: Boolean = true;
+    val meses: Double = 12.6;
+    val valor_de_pi: Float = 3.1416f;
+    
+    //Constantes implicitas
+    val apellido2 = "Brena";
+    val tiempo2 = 23;
+    val vida2 = false;
+    val meses2 = 11.2;
+    val valor_de_pi2 = 3.1416f;
+    
+}
