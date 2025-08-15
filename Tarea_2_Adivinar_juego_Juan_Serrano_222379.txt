@@ -1,0 +1,74 @@
+import kotlin.random.Random
+
+fun main() {
+    
+    println("Bienvenido/a al juego: Adivina un número del 1 al 100");
+    println("Tienes 10 intentos para adivinar el número o si no pierdes");
+    println("----------------------------------------------------------");
+    println("");
+    
+    //llamamos a la funcion
+    Juego_adivinar();
+}
+
+fun Juego_adivinar(){//funcion que estructura el juego y valida la respuestas e intentos
+    var respuesta: String? = null;
+    var respuesta_valida: Int? = null;
+    
+    // Generar un número aleatorio entre 1 y 100 y guardarlo en una constante
+    val numeroAleatorio = Random.nextInt(1, 101)
+    
+    // Variable intentos inicializada en 0
+    var intentos = 0
+    
+    // Variable que almacena si el jugador acertó o no
+    var atino = false
+    
+    println("Por favor introduce un numero entero")
+    
+    // Significa "mientras NO hayas atinado"
+    while(!atino){
+        respuesta = readlnOrNull();
+        if(respuesta == null){
+            println("No se que intentaste hacer, por favor vuelve a intentar");
+            continue //salta le ejecucion y se devuelve al bucle
+        }
+        
+        //convertimos a entero
+        respuesta_valida = respuesta!!.toIntOrNull();
+        
+        //validamos que si sea un entero no un decimal
+        if(respuesta_valida == null){
+            println("Eso no parece un número valido, intenta de nuevo");
+            continue
+        }
+        
+        //validamos el rango
+        if(respuesta_valida !in 1..100){
+            println("Tu numero no esta entre el rango correcto (1-100)");
+            continue
+        }
+        
+        // Aumentamos la cantidad de intentos
+            intentos++;
+            
+        if (intentos >= 10) {
+            println("Lo siento, acabaste tus intentos. El número era $numeroAleatorio")
+            return
+        }
+            
+        when{
+            // Caso 1 --> el jugador encontró el número
+            respuesta_valida == numeroAleatorio -> {
+                println("¡Felicidades! adivinaste en $intentos intentos el numero $numeroAleatorio")
+                atino = true
+            }
+            // Caso 2 --> el jugador ingresó un número menor al generado
+            respuesta_valida < numeroAleatorio -> println("El número es mayor; Intentos: $intentos")
+            
+            
+            // Caso 3 --> el jugador ingresó un número mayor al generado
+            else -> println("El número es menor. Intentos: $intentos")
+        }
+    }
+}
