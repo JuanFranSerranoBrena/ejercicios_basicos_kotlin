@@ -1,0 +1,86 @@
+// Clase 1: Poder, para crear poderes y una función cuando los use
+class Poder(val nombre: String) {
+    fun usarPoder(): String {
+        return "Usando el poder de $nombre"
+    }
+}
+
+// Clase 2: Identificación del héroe
+class Identificacion(
+    val nombre: String = "", //nombre del personaje
+    val apellido: String = "",//apellido del personaje
+    val alias: String = "No tiene"//alias
+)
+
+// Clase 3: Equipo al que pertenece junto con la base y su lider
+class Equipo(
+    val nombreEquipo: String,
+    val baseOperaciones: String,
+    val lider: String
+) {
+    fun infoEquipo(): String {
+        return "El equipo $nombreEquipo tiene como lider a $lider y su base está en $baseOperaciones"
+    }
+}
+
+// Clase 4: Superhéroe
+data class Superheroe(
+    val identidad: Identificacion,//usamos la clase Identificacion
+    val poderes: List<Poder> = emptyList(),//usamos la clase poder y la metemos en una lista
+    val equipo: Equipo,//usamos la clase equipo
+    val esMutante: Boolean = false,//boleano para saber si es mutante
+    val esInhumano: Boolean = false//boleano para saber si es innhumano
+) {
+    fun crearHeroe(): String {
+        val listaPoderes = poderes.joinToString { it.nombre } //convierte la lista de objetos Poder en un string, tomando el nombre de cada poder y separándolos por comas
+        //retornamos en un solo texto toda la informacion del o la personaje
+        return "El/la personaje ${identidad.nombre} ${identidad.apellido}, alias ${identidad.alias}, " +
+               "pertenece al equipo ${equipo.nombreEquipo}, posee los poderes: ${listaPoderes}, " +
+               "es mutante: ${esMutante}, es inhumano: ${esInhumano}"
+    }
+}
+
+// Clase 5: Batalla, simulamos la batalla entre dos personajes
+class Batalla(val heroe1: Superheroe, val heroe2: Superheroe) {
+    fun enfrentar(): String {
+        return "¡${heroe1.identidad.alias} se enfrenta contra ${heroe2.identidad.alias}!"
+    }
+}
+
+fun main() {
+    // Crear poderes
+    val telekinesis = Poder("Telekinesis")
+    val magnetismo = Poder("Magnetismo")
+    val telepatia = Poder("Telepatia")
+
+    // Crear equipos
+    val xmen = Equipo("X-Men", "Mansión X", "Profesor Xavier")
+    val brotherhood = Equipo("Hermandad de Mutantes", "Asteroide M", "Magneto")
+
+    // Crear héroes
+    val heroe1 = Superheroe(
+        identidad = Identificacion("Jean", "Grey", "Marvel Girl/Phoenix"),//asignamos datos personales
+        poderes = listOf(telekinesis, telepatia),//asignamos poderes
+        equipo = xmen,//asignamos equipo
+        esMutante = true//especificamos raza
+    )
+
+    val heroe2 = Superheroe(
+        identidad = Identificacion("Erik", "Lensherr", "Magneto"),
+        poderes = listOf(magnetismo),
+        equipo = brotherhood,
+        esMutante = true
+    )
+
+    // Mostrar info
+    println(heroe1.crearHeroe())
+    println(heroe2.crearHeroe())
+    println(xmen.infoEquipo())
+    println(brotherhood.infoEquipo())
+
+    // Simular batalla
+    val batalla = Batalla(heroe1, heroe2)
+    println(batalla.enfrentar())
+    println(heroe1.identidad.nombre + " " + heroe1.identidad.apellido + " esta " + telekinesis.usarPoder())
+    println(heroe2.identidad.alias + " esta " + magnetismo.usarPoder())
+}
