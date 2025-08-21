@@ -1,0 +1,73 @@
+/*Clases y objetos
+Para declarar una clase simplemente usamos la palabra "class"
+Una clase es un conjunto de datos que se relaciona con otro conjunto de datos
+Hay dos tipos de Clases:
+    *data class es otra de ellas
+        1) las clases vienen generalmente vacias, mas que integrar un constructor
+        2) data class es usado por si tenemos datos que solo poseen información o guardar los datos, sosteniendo infromación
+            -puede ser copiado con el metodo copy() o duplicado
+    
+    Composición permite agregarle cosas a una clase sin crear otra en especifico
+
+*/
+
+data class Carrera(val nombre: String, val instituto: String);
+
+class Poder(val nombre: String){
+    fun puede_volar(): String{
+        return ("Puede volar");
+    }
+}
+
+class Estudiante (//los parentesís contrae el constructor 
+    val matricula: Int,//siempre colocar el val o var al construir el constructor
+    val nombre: String,
+    val apellidos: String,
+    val carrera: Carrera,
+    val correo_de_contacto: String,
+    val poderes: List<Poder> = emptyList()
+){
+    fun obtener_correo(): String{
+        return "al${matricula}@alumnos.uacj.mx";
+    }
+    
+    //funcion para duplicar
+    fun duplicar(): Estudiante{
+        return Estudiante(matricula,nombre,apellidos,carrera,correo_de_contacto);
+    }
+}
+
+fun main() {
+    val DDMI: Carrera = Carrera("DDMI","IADA")
+    val diseño = DDMI.copy()//por eso se usa el data class
+    val estudiante_1 = Estudiante(222379,"Juan","Serrano Brena", DDMI, "juanfranserra@icloud.com");
+    val estudiante_2 = Estudiante(222401,"Edwin","Carrillo", DDMI, "juanfranserra@icloud.com");
+    val estudiante_3 = estudiante_1;
+    val estudiante_4 = estudiante_1.duplicar();
+    
+    //Por que no son el mismo si son los mismos datos
+    if(estudiante_1 == estudiante_3){
+        println("Son el mismo alumnos")
+    }else{
+        println("Son diferentes alumnos")
+    }
+    
+    //ocupan lugar distinto en la memoria ram
+    if(estudiante_3 == estudiante_4){
+        println("Son el mismo alumnos")
+    }else{
+        println("Son diferentes alumnos")
+    }
+    
+    //ejemplo DDMI, cuando pregunto que son iguales, si dice que son el mismo objeto, debido a que 
+    //se compara el contenido y no el espacio en la memoria ram
+    if(DDMI == diseño){
+        println("Son el mismo instituto")
+    }else{
+        println("Son diferentes instituto")
+    }
+
+    
+    
+    println("el correo del estudiante ${estudiante_1.nombre} es ${estudiante_1.obtener_correo()}");
+}
