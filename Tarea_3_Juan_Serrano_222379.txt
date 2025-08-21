@@ -24,7 +24,7 @@ class Equipo(
 }
 
 // Clase 4: Superhéroe
-data class Superheroe(
+class Superheroe(
     val identidad: Identificacion,//usamos la clase Identificacion
     val poderes: List<Poder> = emptyList(),//usamos la clase poder y la metemos en una lista
     val equipo: Equipo,//usamos la clase equipo
