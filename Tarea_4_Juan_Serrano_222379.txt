@@ -1,0 +1,242 @@
+enum class EstadosBebes{
+    despierto,
+    llorando,
+    dormido,
+    comiendo,
+    cagado_y_miado,
+    tieso,
+    bailando_gagnam_style,
+    volando,
+    caminando,
+    calmado,
+    disparando_rayo_laser
+}
+
+class Bebe(
+        var nombre: String,
+        var hambre: Int,
+        var pañal_lleno: Int,
+        var sueño: Int,
+        var estado: EstadosBebes = EstadosBebes.despierto,
+        ){
+    
+    
+    //Funcion que permite alimentar al bebe    
+    fun alimentar(){
+        estado = EstadosBebes.comiendo
+    }
+    
+    //Funcion que permite dormir al bebe
+    fun dormir(){
+        //La condicion nos dice que si el estado es igual a despierto o comiendo y el sueño es mayor o igual a 50
+        //El bebe no tiene sueño y el estado cambia a dormido por que el bebe se pone a dormir
+        if((estado == EstadosBebes.despierto || estado == EstadosBebes.comiendo) && sueño > 49){
+            sueño = 0
+            estado = EstadosBebes.dormido
+        }
+    }
+    
+    //Funcion que permite despertar al bebe
+    fun despertar(){
+        //Condicion que nos dice si esta dormido lo despertamos
+        if(estado == EstadosBebes.dormido){
+            estado = EstadosBebes.despierto
+        }
+    }
+    
+    //Funcion que pone tieso al bebe
+    fun despertar_con_agua(){
+        //Condicion que nos dice si esta dormido lo despertamos con agua osea tieso
+        if(estado == EstadosBebes.dormido){
+            estado = EstadosBebes.tieso
+        }
+    }
+    
+    //Esta funcion sirve para actualizar el estado del bebe atraves de cases del when
+    fun actualizar_estado(){
+        when(estado){
+            //Caso 1 -> el bebe esta despierto, subimos el sueño, el hambre y el pañal
+            EstadosBebes.despierto -> {
+                sueño += 5
+                hambre += 5
+                pañal_lleno += 3
+            }
+            
+            //Caso 2 -> el bebe esta siendo alimentado y el hambre baja -40
+            EstadosBebes.comiendo -> {
+                hambre -= 40
+                if(hambre < 0) hambre = 0
+            }
+            
+            //Caso 3 -> el bebe llorando aumenta mucho hambre y pañal, y baja el sueño
+            EstadosBebes.llorando -> {
+                sueño -= 5
+                hambre += 85
+                pañal_lleno += 15
+            }
+
+            //Caso 4 -> el bebe dormido recupera sueño y baja hambre lentamente
+            EstadosBebes.dormido -> {
+                sueño += 20
+                hambre += 2
+            }
+
+            //Caso 5 -> el bebe esta cagado_y_miado, sube pañal
+            EstadosBebes.cagado_y_miado -> {
+                pañal_lleno += 25
+                hambre += 10
+                sueño -= 5
+            }
+
+            //Caso 6 -> el bebe tieso ya no cambia nada
+            EstadosBebes.tieso -> {
+                //Nada que hacer, el bebe está tieso :(
+            }
+
+            //Caso 7 -> el bebe bailando_gagnam_style 
+            EstadosBebes.bailando_gagnam_style -> {
+                sueño += 15
+                hambre += 20
+                pañal_lleno += 10
+            }
+
+            //Caso 8 -> el bebe volando gasta energia
+            EstadosBebes.volando -> {
+                sueño += 25
+                hambre += 30
+            }
+
+            //Caso 9 -> el bebe caminando sube sueño y hambre
+            EstadosBebes.caminando -> {
+                sueño += 10
+                hambre += 15
+                pañal_lleno += 5
+            }
+
+            //Caso 10 -> el bebe calmado mantiene todo estable
+            EstadosBebes.calmado -> {
+                sueño += 1
+                hambre += 1
+                pañal_lleno += 1
+            }
+             
+            //Caso 11 -> el bebe desperto todo su potencial
+            EstadosBebes.disparando_rayo_laser -> {
+                sueño -= 1
+                hambre -= 5
+                pañal_lleno +=5
+            }
+        }
+    }
+    
+    
+    //Funcion que nos indica el estado actual del bebe y nos devuelve un string con el mensaje de la condicion del bebe
+    fun estado_actual(): String{
+        when(estado){
+            EstadosBebes.despierto -> {
+                return "El bebe esta despierto"
+            }
+            
+            EstadosBebes.tieso -> {
+                return "El bebe esta muerto"
+            }
+            
+            EstadosBebes.llorando ->{
+                return "El bebe esta llorando"
+            }
+            
+            EstadosBebes.dormido -> {
+                return "El bebe esta dormido"
+            }
+            
+            EstadosBebes.comiendo -> {
+                return "El bebe esta comiendo"
+            }
+
+            EstadosBebes.cagado_y_miado -> {
+                return "El bebe esta cagado y miado"
+            }
+
+            EstadosBebes.bailando_gagnam_style -> {
+                return "El bebe está bailando Gangnam Style"
+            }
+
+            EstadosBebes.volando -> {
+                return "El bebe está volando como Superman"
+            }
+
+            EstadosBebes.caminando -> {
+                return "El bebe está caminando"
+            }
+
+            EstadosBebes.calmado -> {
+                return "El bebe está calmado y tranquilo"
+            }
+            
+            EstadosBebes.disparando_rayo_laser -> {
+                return "El bebe esta disparando rayos laser"
+            }
+            
+            else -> { 
+            return "No identifico el estado" 
+            }
+        }
+    }
+    
+}
+
+fun main(){
+    //Jackie Shieras estados
+    val JackieShieras = Bebe("Jackie Shieras", 50, 10, 70)
+    
+    println("\n=== Simulación de Jackie Shieras ===")
+    
+    //Jackie esta despierta
+    JackieShieras.actualizar_estado()
+    println("El estado del bebe es ${JackieShieras.estado_actual()}")
+   
+    //Jackie toca mimis
+    JackieShieras.dormir()
+    println("El estado del bebe es ${JackieShieras.estado_actual()}")
+    
+    //Jackie esta llorando mucho
+    JackieShieras.estado = EstadosBebes.llorando
+    JackieShieras.actualizar_estado()
+    println("El estado del bebe es ${JackieShieras.estado_actual()}")
+    
+    //Jackie tiene mucha hambre 
+    JackieShieras.alimentar()
+    println("El estado del bebe es ${JackieShieras.estado_actual()}")
+    
+    //Jackie de la felcicidad empieza a bailar gagnam style 
+    JackieShieras.estado = EstadosBebes.bailando_gagnam_style
+    JackieShieras.actualizar_estado()
+    println("El estado del bebe es ${JackieShieras.estado_actual()}")
+    
+    //Jack Jack estados
+    val jack_jack = Bebe("Jack Jack",50,20,55)
+    
+    println("\n=== Simulación de Jack Jack ===")
+    
+    println("El estado del bebe es ${jack_jack.estado_actual()}")
+
+    // Jack Jack se pone a caminar
+    jack_jack.estado = EstadosBebes.caminando
+    jack_jack.actualizar_estado()
+    println("El estado del bebe es ${jack_jack.estado_actual()}")
+
+    // Jack Jack empieza a volar
+    jack_jack.estado = EstadosBebes.volando
+    jack_jack.actualizar_estado()
+    println("El estado del bebe es ${jack_jack.estado_actual()}")
+
+    // Jack Jack descubre su poder y dispara rayos láser
+    jack_jack.estado = EstadosBebes.disparando_rayo_laser
+    jack_jack.actualizar_estado()
+    println("El estado del bebe es ${jack_jack.estado_actual()}")
+
+    // Después de tanto, Jack Jack se calma
+    jack_jack.estado = EstadosBebes.calmado
+    jack_jack.actualizar_estado()
+    println("El estado del bebe es ${jack_jack.estado_actual()}")
+}
