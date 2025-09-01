@@ -1,0 +1,235 @@
+enum class EstadosBebes{
+    despierto,
+    llorando,
+    dormido,
+    comiendo,
+    cagado_y_miado,
+    tieso,
+    bailando_gagnam_style,
+    volando,
+    caminando,
+    calmado,
+    disparando_rayo_laser
+}
+
+
+interface Habilidad {
+    var nombre: String
+    var activo: Boolean
+    var descripcion: String?
+
+    fun activar(): Boolean{
+        return if (activo){
+            false
+        } else {
+            activo = true
+            true
+        }
+    }
+
+    fun desactivar(): Boolean{
+        return if (!activo){
+            false
+        } else {
+            activo = false
+            true
+        }
+    }
+}
+
+interface Habilidades{
+    var capacidades: MutableList<Habilidad>
+
+    fun activar_capacidad(nombre: String): Boolean{
+        for(capacidad in capacidades){
+            if(capacidad.nombre == nombre){
+                return capacidad.activar()
+            }
+        }
+        return false
+    }
+
+    fun agregar_capacidad(capacidad_nueva: Habilidad){
+        capacidades.add(capacidad_nueva)
+    }
+
+    fun descripcion(): String{
+        var lista_de_capacidades = "${capacidades.size}: "
+        for(capacidad in capacidades){
+            lista_de_capacidades = "$lista_de_capacidades, ${capacidad.nombre}"
+        }
+        return lista_de_capacidades
+    }
+}
+
+class SuperPoder(
+    override var nombre: String,
+    override var activo: Boolean,
+    override var descripcion: String?
+): Habilidad {}
+
+// ================== Clase Bebe extendida ==================
+class Bebe(
+        var nombre: String,
+        var hambre: Int,
+        var pañal_lleno: Int,
+        var sueño: Int,
+        var estado: EstadosBebes = EstadosBebes.despierto,
+): Habilidades {
+
+    override var capacidades: MutableList<Habilidad> = mutableListOf()
+
+    fun alimentar(){
+        estado = EstadosBebes.comiendo
+    }
+
+    fun dormir(){
+        if((estado == EstadosBebes.despierto || estado == EstadosBebes.comiendo) && sueño > 49){
+            sueño = 0
+            estado = EstadosBebes.dormido
+        }
+    }
+
+    fun despertar(){
+        if(estado == EstadosBebes.dormido){
+            estado = EstadosBebes.despierto
+        }
+    }
+
+    fun despertar_con_agua(){
+        if(estado == EstadosBebes.dormido){
+            estado = EstadosBebes.tieso
+        }
+    }
+
+    fun actualizar_estado(){
+        when(estado){
+            //Caso 1 -> el bebe esta despierto, subimos el sueño, el hambre y el pañal
+            EstadosBebes.despierto -> {
+                sueño += 5
+                hambre += 5
+                pañal_lleno += 3
+            }
+            
+            //Caso 2 -> el bebe esta siendo alimentado y el hambre baja -40
+            EstadosBebes.comiendo -> {
+                hambre -= 40
+                if(hambre < 0) hambre = 0
+            }
+            
+            //Caso 3 -> el bebe llorando aumenta mucho hambre y pañal, y baja el sueño
+            EstadosBebes.llorando -> {
+                sueño -= 5
+                hambre += 85
+                pañal_lleno += 15
+            }
+
+            //Caso 4 -> el bebe dormido recupera sueño y baja hambre lentamente
+            EstadosBebes.dormido -> {
+                sueño += 20
+                hambre += 2
+            }
+
+            //Caso 5 -> el bebe esta cagado_y_miado, sube pañal
+            EstadosBebes.cagado_y_miado -> {
+                pañal_lleno += 25
+                hambre += 10
+                sueño -= 5
+            }
+
+            //Caso 6 -> el bebe tieso ya no cambia nada
+            EstadosBebes.tieso -> {
+                //Nada que hacer, el bebe está tieso :(
+            }
+
+            //Caso 7 -> el bebe bailando_gagnam_style 
+            EstadosBebes.bailando_gagnam_style -> {
+                sueño += 15
+                hambre += 20
+                pañal_lleno += 10
+            }
+
+            //Caso 8 -> el bebe volando gasta energia
+            EstadosBebes.volando -> {
+                sueño += 25
+                hambre += 30
+            }
+
+            //Caso 9 -> el bebe caminando sube sueño y hambre
+            EstadosBebes.caminando -> {
+                sueño += 10
+                hambre += 15
+                pañal_lleno += 5
+            }
+
+            //Caso 10 -> el bebe calmado mantiene todo estable
+            EstadosBebes.calmado -> {
+                sueño += 1
+                hambre += 1
+                pañal_lleno += 1
+            }
+             
+            //Caso 11 -> el bebe desperto todo su potencial
+            EstadosBebes.disparando_rayo_laser -> {
+                sueño -= 1
+                hambre -= 5
+                pañal_lleno +=5
+            }
+        }
+    }
+
+    fun estado_actual(): String{
+        return when(estado){
+            EstadosBebes.despierto -> "El bebe esta despierto"
+            
+            EstadosBebes.tieso -> "El bebe esta muerto"
+            
+            EstadosBebes.llorando -> "El bebe esta llorando"
+            
+            EstadosBebes.dormido -> "El bebe esta dormido"
+            
+            EstadosBebes.comiendo -> "El bebe esta comiendo"
+            
+            EstadosBebes.cagado_y_miado -> "El bebe esta cagado y miado"
+            
+            EstadosBebes.bailando_gagnam_style -> "El bebe está bailando Gangnam Style"
+            
+            EstadosBebes.volando -> "El bebe está volando como Superman"
+            
+            EstadosBebes.caminando -> "El bebe está caminando"
+            
+            EstadosBebes.calmado -> "El bebe está calmado y tranquilo"
+            
+            EstadosBebes.disparando_rayo_laser -> "El bebe esta disparando rayos laser"
+        }
+    }
+}
+
+// ================== MAIN ==================
+fun main(){
+    // Creamos habilidades
+    val poder1 = SuperPoder("Rayos Laser", false, "El bebé dispara rayos laser por los ojos")
+    val poder2 = SuperPoder("Volar", false, "El bebé puede volar")
+    val poder3 = SuperPoder("SuperFuerza", false, "El bebé tiene fuerza sobrehumana")
+
+    val jackie = Bebe("Jackie Shieras", 50, 10, 70)
+    jackie.agregar_capacidad(poder1)
+    jackie.agregar_capacidad(poder2)
+    jackie.agregar_capacidad(poder3)
+
+    println("=== Simulación de Jackie con habilidades ===")
+    println(jackie.estado_actual())
+
+    // Jackie activa el poder de volar
+    jackie.activar_capacidad("Volar")
+    jackie.estado = EstadosBebes.volando
+    println(jackie.estado_actual())
+
+    // Jackie activa rayos láser
+    jackie.activar_capacidad("Rayos Laser")
+    jackie.estado = EstadosBebes.disparando_rayo_laser
+    println(jackie.estado_actual())
+
+    // Lista de poderes activos
+    println("Los poderes de Jackie son: ${jackie.descripcion()}")
+}
